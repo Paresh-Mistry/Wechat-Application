@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Chat Messages - {{name.capitalize()}}{% endblock %}
+{% block body %}
+    <div class="user_input mt-4">
+        <div class="d-flex justify-content-between">
+        <details>
+            <summary class="text-white bg-success w-100 px-2 py-1 rounded">Share</summary>
+            <p>ChatRoom Code : {{code}}</p>
+        </details>
+         <p><em>Welcomes Dear User , </em><strong>{{name.capitalize()}}</strong></p>   
+        </div>
+        <div class="container d-flex align-items-center gap-1 fixed-bottom ">
+            <input type="text" class="my-1 w-100 p-2" placeholder="Message Here ..." id="message" name="message">
+            <button class="btn border" id="send-btn" onClick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="rgb(74, 199, 224)" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+                  </svg>
+            </button>
+        </div>
+        <div class="messages mb-1" id="messages">
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+    <script type="text/javascript">
+        var socketio = io();
+
+        const messages = document.getElementById("messages")
+
+        const date = new Date()
+        const time = (date.getHours() +":"+ date.getMinutes() )
+
+        const createMessage = (name  , msg) =>{
+            const content = `
+            <div class="d-flex gap-2 align-items-start mt-2 p-2">
+                <span id='icon' class="icon text-white px-2">${name[0].toUpperCase()}</span>
+                <span class=" bg-white p-1 rounded">
+                    <strong class="small">${name}</strong>
+                    <span class="d-flex gap-5 ">
+                    <i>${msg}</i>
+                    <code class="small text-xl-end"><i>${time}</i></code>
+                    </span>
+                    </span>
+               </span>
+            </div>`  
+            
+            messages.innerHTML += content
+        }
+
+        socketio.on("message" , (data) => {
+            createMessage(data.name , data.message)
+        })
+
+        const sendMessage = () =>{
+            const messages = document.getElementById("message")
+            if(message.value == "") return;
+            socketio.emit("message" , {data : message.value})
+            message.value = ""
+        }
+
+    </script>
+    {% for msg in messages %}
+    <script type="text/javascript">
+        createMessage("{{msg.name}}" , "{{msg.message}}")
+    </script>
+    {% endfor %}
+{% endblock %}

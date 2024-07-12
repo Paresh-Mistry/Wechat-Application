@@ -1,0 +1,49 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(data:image/jpeg;base64,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);
+}
+
+.heading{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: 4px 3px 9px green;
+}
+
+.messages{
+    height:70vh;
+    scrollbar-width: thin;
+    /* background-color: rgb(197, 191, 191); */
+    overflow-y: scroll;
+    scrollbar-color: transparent transparent;
+}
+
+span code i{
+    font-size:11px;
+}
+
+.icon{
+    padding-block: 2px;
+    background-color: dodgerblue;
+    border-radius: 100%;
+}
+
+h4{
+    color: rgb(36, 183, 212);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+.form{
+    width: fit-content;
+    margin: auto;
+    box-shadow: 0 1px 12px 3px grey;
+}
+
+.bordercontent{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
