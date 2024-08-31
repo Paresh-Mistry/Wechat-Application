@@ -16,7 +16,6 @@ body{
 .messages{
     height:70vh;
     scrollbar-width: thin;
-    /* background-color: rgb(197, 191, 191); */
     overflow-y: scroll;
     scrollbar-color: transparent transparent;
 }
@@ -25,11 +24,11 @@ span code i{
     font-size:11px;
 }
 
-.icon{
-    padding-block: 2px;
-    background-color: dodgerblue;
-    border-radius: 100%;
-}
+.icon_1{background-color: red;}
+.icon_2{background-color: dodgerblue;}
+.icon_3{background-color: green;}
+.icon_4{background-color: purple;}
+.icon_5{background-color: darkorange}
 
 h4{
     color: rgb(36, 183, 212);

@@ -23,41 +23,87 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
     <script type="text/javascript">
         var socketio = io();
-
-        const messages = document.getElementById("messages")
-
-        const date = new Date()
-        const time = (date.getHours() +":"+ date.getMinutes() )
-
-        const createMessage = (name  , msg) =>{
+        
+        const messages = document.getElementById("messages");
+        const messageInput = document.getElementById("message");
+    
+        window.onload = function() {
+            const savedMessage = localStorage.getItem("savedMessage");
+            if (savedMessage) {
+                messageInput.value = savedMessage;
+            }
+        };
+    
+        const getCurrentTime = () => {
+            const date = new Date();
+            return date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+        };
+    
+        const createMessage = (name, msg) => {
+            const time = getCurrentTime();
             const content = `
             <div class="d-flex gap-2 align-items-start mt-2 p-2">
-                <span id='icon' class="icon text-white px-2">${name[0].toUpperCase()}</span>
-                <span class=" bg-white p-1 rounded">
+                <span class="icon text-white rounded-circle py-1 px-2">${name[0].toUpperCase()}</span>
+                <span class="bg-white p-1 rounded">
                     <strong class="small">${name}</strong>
-                    <span class="d-flex gap-5 ">
+                    <span class="d-flex gap-5 " style="align-items:end">
                     <i>${msg}</i>
                     <code class="small text-xl-end"><i>${time}</i></code>
                     </span>
-                    </span>
-               </span>
-            </div>`  
+                </span>
+            </div>`;
             
-            messages.innerHTML += content
-        }
-
-        socketio.on("message" , (data) => {
-            createMessage(data.name , data.message)
-        })
-
-        const sendMessage = () =>{
-            const messages = document.getElementById("message")
-            if(message.value == "") return;
-            socketio.emit("message" , {data : message.value})
-            message.value = ""
-        }
-
+            messages.innerHTML += content;
+    
+            const iconElement = messages.querySelectorAll('.icon').item(messages.querySelectorAll('.icon').length - 1);
+    
+            addIconClass(name[0].toUpperCase(), iconElement);
+        };
+    
+        const addIconClass = (firstChar, iconElement) => {
+            let namelist_1 = ['A', 'B', 'C', 'D', 'U'];
+            let namelist_2 = ['E', 'F', 'G', 'H', 'T'];
+            let namelist_3 = ['J', 'K', 'L', 'M', 'S'];
+            let namelist_4 = ['N', 'O', 'P', 'Q', 'R'];
+            let namelist_5 = ['V', 'W', 'X', 'Y', 'Z'];
+    
+            if (namelist_1.includes(firstChar)) {
+                iconElement.classList.add("icon_1");
+            } else if (namelist_2.includes(firstChar)) {
+                iconElement.classList.add("icon_2");
+            } else if (namelist_3.includes(firstChar)) {
+                iconElement.classList.add("icon_3");
+            } else if (namelist_4.includes(firstChar)) {
+                iconElement.classList.add("icon_4");
+            } else if (namelist_5.includes(firstChar)) {
+                iconElement.classList.add("icon_5");
+            } else {
+                iconElement.classList.add("icon_6");
+            }
+        };
+    
+        socketio.on("message", (data) => {
+            createMessage(data.name, data.message);
+        });
+    
+        const sendMessage = () => {
+            if (messageInput.value == "") return;
+    
+            // Save the message to local storage before sending
+            localStorage.setItem("savedMessage", messageInput.value);
+            
+            socketio.emit("message", { data: messageInput.value });
+            messageInput.value = ""; 
+            localStorage.removeItem("savedMessage"); 
+        };
+    
+        messageInput.addEventListener("input", () => {
+            localStorage.removeItem("savedMessage");
+        });
     </script>
+    
+    
+    
     {% for msg in messages %}
     <script type="text/javascript">
         createMessage("{{msg.name}}" , "{{msg.message}}")
