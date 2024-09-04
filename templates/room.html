@@ -4,14 +4,14 @@
     <div class="user_input mt-4">
         <div class="d-flex justify-content-between">
         <details>
-            <summary class="text-white bg-success w-100 px-2 py-1 rounded">Share</summary>
+            <summary class="text-white bg-success w-100 px-2 py-1 rounded">Share Code</summary>
             <p>ChatRoom Code : {{code}}</p>
         </details>
          <p><em>Welcomes Dear User , </em><strong>{{name.capitalize()}}</strong></p>   
         </div>
         <div class="container d-flex align-items-center gap-1 fixed-bottom ">
-            <input type="text" class="my-1 w-100 p-2" placeholder="Message Here ..." id="message" name="message">
-            <button class="btn border" id="send-btn" onClick="sendMessage()">
+            <input type="text" class="my-1 border rounded w-100 p-2" placeholder="Chat Here {{name.capitalize()}} ..." id="message" name="message">
+            <button class="btn" id="send-btn" onClick="sendMessage()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="rgb(74, 199, 224)" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                     <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
                   </svg>
@@ -43,11 +43,11 @@
             const time = getCurrentTime();
             const content = `
             <div class="d-flex gap-2 align-items-start mt-2 p-2">
-                <span class="icon text-white rounded-circle py-1 px-2">${name[0].toUpperCase()}</span>
+                <span class="icon text-white fw-bold rounded-circle py-1 px-2">${name[0].toUpperCase()}</span>
                 <span class="bg-white p-1 rounded">
-                    <strong class="small">${name}</strong>
+                    <strong class="small">${name[0].toUpperCase() + name.slice(1)}</strong>
                     <span class="d-flex gap-5 " style="align-items:end">
-                    <i>${msg}</i>
+                    <i class="small">${msg}</i>
                     <code class="small text-xl-end"><i>${time}</i></code>
                     </span>
                 </span>
@@ -87,9 +87,9 @@
         });
     
         const sendMessage = () => {
-            if (messageInput.value == "") return;
+            if (messageInput.value == "") 
+            return alert(`Message box can't be empty ! `);
     
-            // Save the message to local storage before sending
             localStorage.setItem("savedMessage", messageInput.value);
             
             socketio.emit("message", { data: messageInput.value });

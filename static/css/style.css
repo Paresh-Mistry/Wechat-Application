@@ -13,6 +13,10 @@ body{
     text-shadow: 4px 3px 9px green;
 }
 
+nav{
+    background-color: rgb(115, 215, 177);
+}
+
 .messages{
     height:70vh;
     scrollbar-width: thin;

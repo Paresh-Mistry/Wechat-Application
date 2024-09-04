@@ -8,7 +8,7 @@
 
 ## Image Preview 
 
-![Mobile Preview](image.png)
+![Mobile Preview](/static/images/image.png)
 ---
-![Laptop Preview](image-1.png)
+![Laptop Preview](/static/images/image-1.png)
 
